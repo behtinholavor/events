@@ -6,7 +6,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core'
     <div class="well hoverwell thumbnail">
         <h2>{{event?.name}}</h2>
         <div>Date: {{event?.date}}</div>        
-        <div [style.color]="event?.time === '8:00 am' ? '#35c135' : '#bbb' " [ngSwitch]="event?.time">
+        <div [ngStyle]="getStartTimeStyle()" [ngSwitch]="event?.time">
             Time: {{event?.time}}
             <span *ngSwitchCase="'8:00 am'">(Early Start)</span>
             <span *ngSwitchCase="'10:00 am'">(Late Start)</span>
@@ -21,9 +21,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core'
             Online URL: {{event?.onlineUrl}}
         </div>
     </div>`,
-    styles: [`
-        .green { color: #35c135 !important }
-        .bold { font-weight: bold }
+    styles: [`        
         .thumbnail { min-height: 210px; }
         .pad-left { margin-left: 10px; }
         .well div { color: #bbb; }
@@ -32,13 +30,17 @@ import { Component, Input, Output, EventEmitter } from '@angular/core'
 export class EventThumbnailComponent {
     @Input() event: any;
 
-    getStartTimeClass() {
-        // const isEarlyStart = this.event && this.event.time === '8:00 am';
-        // const isLateStart = this.event && this.event.time === '10:00 am';
-        // const isNormalStart = this.event && this.event.time === '9:00 am';
-        if (this.event && this.event.time === '8:00 am') {
-            return 'green bold'
+    getStartTimeStyle(): any {
+        const isEarlyStart = this.event && this.event.time === '8:00 am';
+        const isLateStart = this.event && this.event.time === '10:00 am';
+        const isNormalStart = this.event && this.event.time === '9:00 am';
+        if (isEarlyStart) {
+            return { color: '#35c135', 'font-weight': 'bold' }
+        } else if (isLateStart) {
+            return { color: '#f55454', 'font-weight': 'bold' }
+        } else if (isNormalStart) {
+            return { color: '#ebebeb', 'font-weight': 'bold' }
         }
-        return ''
+
     }
 }
