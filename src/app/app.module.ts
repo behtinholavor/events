@@ -41,5 +41,5 @@ export class AppModule { }
 
 export function checkDirtyState(component: CreateEventComponent) {
   if (component.isDirty)
-    return window.confirm('You have not saved this even. do you really qant to cancel?');
+    return window.confirm('You have not saved this even. Do you really want to cancel?');
 }
